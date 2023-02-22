@@ -1,23 +1,31 @@
 package com.foxsteps.gsonformat.process;
 
+import static com.foxsteps.gsonformat.common.StringUtils.captureName;
+
 import com.foxsteps.gsonformat.common.FieldHelper;
 import com.foxsteps.gsonformat.common.JavaDocUtils;
 import com.foxsteps.gsonformat.common.PsiClassUtil;
+import com.foxsteps.gsonformat.common.RequiredAnnotationUtils;
+import com.foxsteps.gsonformat.common.SwaggerDocUtils;
 import com.foxsteps.gsonformat.common.Try;
 import com.foxsteps.gsonformat.config.Config;
 import com.foxsteps.gsonformat.config.Constant;
 import com.foxsteps.gsonformat.entity.ClassEntity;
 import com.foxsteps.gsonformat.entity.ConvertLibrary;
 import com.foxsteps.gsonformat.entity.FieldEntity;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementFactory;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiModifierList;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.javadoc.PsiDocComment;
-import org.apache.http.util.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.foxsteps.gsonformat.common.StringUtils.captureName;
+import org.apache.http.util.TextUtils;
 
 /**
  * Created by dim on 16/11/7.
@@ -87,16 +95,20 @@ public abstract class Processor {
             return;
         }
         if (Config.getInstant().isObjectFromData()) {
-            createMethod(factory, Config.getInstant().getObjectFromDataStr().replace("$ClassName$", cls.getName()).trim(), cls);
+            createMethod(factory,
+                Config.getInstant().getObjectFromDataStr().replace("$ClassName$", cls.getName()).trim(), cls);
         }
         if (Config.getInstant().isObjectFromData1()) {
-            createMethod(factory, Config.getInstant().getObjectFromDataStr1().replace("$ClassName$", cls.getName()).trim(), cls);
+            createMethod(factory,
+                Config.getInstant().getObjectFromDataStr1().replace("$ClassName$", cls.getName()).trim(), cls);
         }
         if (Config.getInstant().isArrayFromData()) {
-            createMethod(factory, Config.getInstant().getArrayFromDataStr().replace("$ClassName$", cls.getName()).trim(), cls);
+            createMethod(factory,
+                Config.getInstant().getArrayFromDataStr().replace("$ClassName$", cls.getName()).trim(), cls);
         }
         if (Config.getInstant().isArrayFromData1()) {
-            createMethod(factory, Config.getInstant().getArrayFromData1Str().replace("$ClassName$", cls.getName()).trim(), cls);
+            createMethod(factory,
+                Config.getInstant().getArrayFromData1Str().replace("$ClassName$", cls.getName()).trim(), cls);
         }
     }
 
@@ -142,15 +154,12 @@ public abstract class Processor {
                 }
             }
             if (typeStr.equals("boolean")) {
-                String method = "public ".concat(typeStr).concat("   is").concat(
-                        captureName(fieldName)).concat("() {   return ").concat(
-                        field.getGenerateFieldName()).concat(" ;} ");
+                String method = "public ".concat(typeStr).concat("   is").concat(captureName(fieldName))
+                    .concat("() {   return ").concat(field.getGenerateFieldName()).concat(" ;} ");
                 cls.add(factory.createMethodFromText(method, cls));
             } else {
-                String method = "public ".concat(typeStr).concat("   get").concat(
-                        captureName(fieldName)).concat(
-                        "() {   return ").concat(
-                        field.getGenerateFieldName()).concat(" ;} ");
+                String method = "public ".concat(typeStr).concat("   get").concat(captureName(fieldName))
+                    .concat("() {   return ").concat(field.getGenerateFieldName()).concat(" ;} ");
                 cls.add(factory.createMethodFromText(method, cls));
             }
 
@@ -171,9 +180,11 @@ public abstract class Processor {
                 }
             }
 
-            String method = "public void  set".concat(captureName(fieldName)).concat("( ").concat(typeStr).concat(" ").concat(arg).concat(") {   ");
+            String method = "public void  set".concat(captureName(fieldName)).concat("( ").concat(typeStr).concat(" ")
+                .concat(arg).concat(") {   ");
             if (field.getGenerateFieldName().equals(arg)) {
-                method = method.concat("this.").concat(field.getGenerateFieldName()).concat(" = ").concat(arg).concat(";} ");
+                method = method.concat("this.").concat(field.getGenerateFieldName()).concat(" = ").concat(arg)
+                    .concat(";} ");
             } else {
                 method = method.concat(field.getGenerateFieldName()).concat(" = ").concat(arg).concat(";} ");
             }
@@ -188,7 +199,9 @@ public abstract class Processor {
 
                 @Override
                 public void runAgain() {
-                    cls.addBefore(factory.createCommentFromText("// FIXME generate failure  method  set and get " + captureName(finalFieldName), cls), cls.getChildren()[0]);
+                    cls.addBefore(factory.createCommentFromText(
+                            "// FIXME generate failure  method  set and get " + captureName(finalFieldName), cls),
+                        cls.getChildren()[0]);
 
                 }
 
@@ -200,7 +213,8 @@ public abstract class Processor {
         }
     }
 
-    protected void generateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass, IProcessor visitor) {
+    protected void generateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass,
+        IProcessor visitor) {
 
         onStartGenerateClass(factory, classEntity, parentClass, visitor);
         PsiClass generateClass = null;
@@ -209,15 +223,14 @@ public abstract class Processor {
             if (Config.getInstant().isSplitGenerate()) {
                 //单独生成子类
                 try {
-                    generateClass = PsiClassUtil.getPsiClass(
-                            parentClass.getContainingFile(), parentClass.getProject(), classEntity.getQualifiedName());
+                    generateClass = PsiClassUtil.getPsiClass(parentClass.getContainingFile(), parentClass.getProject(),
+                        classEntity.getQualifiedName());
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
             } else {
                 //生成内部静态类
-                String classContent =
-                        "public static class " + classEntity.getClassName() + "{}";
+                String classContent = "public static class " + classEntity.getClassName() + "{}";
                 generateClass = factory.createClassFromText(classContent, null).getInnerClasses()[0];
             }
 
@@ -250,7 +263,8 @@ public abstract class Processor {
      * @param parentClass
      * @param visitor
      */
-    protected void onStartGenerateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass, IProcessor visitor) {
+    protected void onStartGenerateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass,
+        IProcessor visitor) {
         if (visitor != null) {
             visitor.onStartGenerateClass(factory, classEntity, parentClass);
         }
@@ -265,7 +279,8 @@ public abstract class Processor {
      * @param generateClass
      * @param visitor
      */
-    protected void onEndGenerateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass, PsiClass generateClass, IProcessor visitor) {
+    protected void onEndGenerateClass(PsiElementFactory factory, ClassEntity classEntity, PsiClass parentClass,
+        PsiClass generateClass, IProcessor visitor) {
         if (visitor != null) {
             visitor.onEndGenerateClass(factory, classEntity, parentClass, generateClass);
             //使用Lombok生成Lombok注解
@@ -279,16 +294,27 @@ public abstract class Processor {
         }
     }
 
-    protected void generateField(PsiElementFactory factory, FieldEntity fieldEntity, PsiClass cls, ClassEntity classEntity) {
+    protected void generateField(PsiElementFactory factory, FieldEntity fieldEntity, PsiClass cls,
+        ClassEntity classEntity) {
 
         if (fieldEntity.isGenerate()) {
             Try.run(new Try.TryListener() {
                 @Override
                 public void run() {
-                    PsiField field = factory.createFieldFromText(generateFieldText(classEntity, fieldEntity, null), cls);
+                    PsiField field = factory.createFieldFromText(generateFieldText(classEntity, fieldEntity, null),
+                        cls);
+
+                    if (Config.getInstant().isUseSwaggerComment()) {
+                        SwaggerDocUtils.addFieldComment(field, fieldEntity, factory);
+                    }
+
+                    if (Config.getInstant().isUseRequiredAnnotation()) {
+                        RequiredAnnotationUtils.addFieldComment(field, fieldEntity, factory);
+                    }
                     if (Config.getInstant().isUseComment()) {
                         JavaDocUtils.addFieldComment(field, fieldEntity, factory);
                     }
+
                     cls.add(field);
                 }
 
@@ -296,12 +322,15 @@ public abstract class Processor {
                 public void runAgain() {
                     //生成自定义名字
                     fieldEntity.setFieldName(FieldHelper.generateLuckyFieldName(fieldEntity.getFieldName()));
-                    cls.add(factory.createFieldFromText(generateFieldText(classEntity, fieldEntity, Constant.FIXME), cls));
+                    cls.add(
+                        factory.createFieldFromText(generateFieldText(classEntity, fieldEntity, Constant.FIXME), cls));
                 }
 
                 @Override
                 public void error() {
-                    cls.addBefore(factory.createCommentFromText("// FIXME generate failure  field " + fieldEntity.getFieldName(), cls), cls.getChildren()[0]);
+                    cls.addBefore(
+                        factory.createCommentFromText("// FIXME generate failure  field " + fieldEntity.getFieldName(),
+                            cls), cls.getChildren()[0]);
                 }
             });
         }
@@ -328,8 +357,8 @@ public abstract class Processor {
             fieldEntity.getTargetClass().setGenerate(true);
         }
         //添加字段序列化注解
-        if (!isNumberKeyFieldAsMap(fieldEntity)
-                && (!filedName.equals(fieldEntity.getKey()) || Config.getInstant().isUseSerializedName())) {
+        if (!isNumberKeyFieldAsMap(fieldEntity) && (!filedName.equals(fieldEntity.getKey()) || Config.getInstant()
+            .isUseSerializedName())) {
             fieldSb.append(Config.getInstant().geFullNameAnnotation().replaceAll("\\{filed\\}", fieldEntity.getKey()));
         }
         //添加字段类型与名称
@@ -340,10 +369,9 @@ public abstract class Processor {
         }
         String fieldText = fieldSb.toString().concat(fixme);
 
-
         if (isNumberKeyFieldAsMap(fieldEntity)) {
             fieldText = fieldText.replace(fieldEntity.getFullNameType(),
-                    "java.util.Map<String," + fieldEntity.getFullNameType() + ">");
+                "java.util.Map<String," + fieldEntity.getFullNameType() + ">");
         }
         return fieldText;
     }
@@ -362,7 +390,8 @@ public abstract class Processor {
             Boolean isHasNoArgsConstructoryFlag = Boolean.FALSE;
             if (annotations != null && annotations.length > 0) {
                 for (PsiAnnotation annotation : annotations) {
-                    if (!isHasNoArgsConstructoryFlag && annotation.getText().contains(Constant.noArgsConstructorAnnotation)) {
+                    if (!isHasNoArgsConstructoryFlag && annotation.getText()
+                        .contains(Constant.noArgsConstructorAnnotation)) {
                         isHasNoArgsConstructoryFlag = Boolean.TRUE;
                     }
 
@@ -373,7 +402,8 @@ public abstract class Processor {
             }
 
             if (!isHasNoArgsConstructoryFlag) {
-                PsiAnnotation annotationFromText = factory.createAnnotationFromText("@lombok.NoArgsConstructor", generateClass);
+                PsiAnnotation annotationFromText = factory.createAnnotationFromText("@lombok.NoArgsConstructor",
+                    generateClass);
                 modifierList.addBefore(annotationFromText, firstChild);
             }
             if (!isHasDataFlag) {

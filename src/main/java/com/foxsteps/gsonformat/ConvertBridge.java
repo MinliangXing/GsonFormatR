@@ -1,27 +1,51 @@
 package com.foxsteps.gsonformat;
 
 import com.foxsteps.gsonformat.action.DataWriter;
-import com.foxsteps.gsonformat.common.*;
+import com.foxsteps.gsonformat.common.CheckUtil;
+import com.foxsteps.gsonformat.common.FieldHelper;
+import com.foxsteps.gsonformat.common.PsiClassUtil;
+import com.foxsteps.gsonformat.common.StringUtils;
+import com.foxsteps.gsonformat.common.Utils;
 import com.foxsteps.gsonformat.config.Config;
-import com.foxsteps.gsonformat.entity.*;
+import com.foxsteps.gsonformat.entity.ClassEntity;
+import com.foxsteps.gsonformat.entity.DataType;
+import com.foxsteps.gsonformat.entity.FieldApiInfo;
+import com.foxsteps.gsonformat.entity.FieldArrayEntity;
+import com.foxsteps.gsonformat.entity.FieldEntity;
+import com.foxsteps.gsonformat.entity.IterableFieldEntity;
 import com.foxsteps.gsonformat.tools.json.JSONArray;
 import com.foxsteps.gsonformat.tools.json.JSONObject;
 import com.foxsteps.gsonformat.ui.FieldsDialog;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiArrayType;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElementFactory;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiPrimitiveType;
+import com.intellij.psi.PsiType;
+import com.intellij.psi.PsiWildcardType;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
 import com.intellij.psi.util.PsiTypesUtil;
-import org.apache.http.util.TextUtils;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.apache.http.util.TextUtils;
 
 
 /**
@@ -584,6 +608,7 @@ public class ConvertBridge {
             }
             String fieldComment = FieldHelper.getFieldComment(fieldApiInfoMap, entity.getKey(),className);
             fieldEntity.setFieldComment(fieldComment);
+            fieldEntity.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, entity.getKey(),className));
             fieldEntity.setSortNo(entity.getSortNo());
             fieldEntityList.add(fieldEntity);
         }
@@ -661,16 +686,21 @@ public class ConvertBridge {
                 if (!StringUtils.isNotBlank(innerComment)) {
                     innerComment = FieldHelper.getFieldComment(fieldApiInfoMap, key, null);
                     fieldEntity.setFieldComment(innerComment);
+                    fieldEntity.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, key,null));
+
                 }
                 result = fieldEntity;
             }
             String fieldComment = FieldHelper.getFieldComment(fieldApiInfoMap, key, null);
             result.setFieldComment(fieldComment);
+            result.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, key,null));
+
         } else if (type instanceof JSONArray) {
             //集合类型
             result = handleJSONArray(parentClass, (JSONArray) type, key, 1, fieldApiInfoMap);
             String fieldComment = FieldHelper.getFieldComment(fieldApiInfoMap, key, null);
             result.setFieldComment(fieldComment);
+            result.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, key,null));
         } else {
             FieldEntity fieldEntity = new FieldEntity();
             fieldEntity.setKey(key);
@@ -691,6 +721,14 @@ public class ConvertBridge {
                 result.setFieldComment(fieldComment);
             }
             result.setFieldComment(fieldComment);
+
+            String required = FieldHelper.getFieldRequired(fieldApiInfoMap, key, parentClass.getClassName());
+            if (!StringUtils.isNotBlank(required)) {
+                required = FieldHelper.getFieldRequired(fieldApiInfoMap, key, null);
+                result.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, key,null));
+            }
+            result.setRequired(required);
+
         }
         result.setKey(key);
         return result;
@@ -846,6 +884,7 @@ public class ConvertBridge {
                 String innerClassComment = FieldHelper.getFieldComment(fieldApiInfoMap, simpleName, null);
                 innerClassEntity.setClassDesc(innerClassComment);
                 item.setFieldComment(innerClassComment);
+                item.setRequired(FieldHelper.getFieldRequired(fieldApiInfoMap, simpleName,null));
             } else {
                 IterableFieldEntity fieldEntity = new IterableFieldEntity();
                 fieldEntity.setKey(key);
@@ -858,6 +897,13 @@ public class ConvertBridge {
                     innerFieldComment = FieldHelper.getFieldComment(fieldApiInfoMap, key, null);
                 }
                 fieldEntity.setFieldComment(innerFieldComment);
+
+                String required = FieldHelper.getFieldRequired(fieldApiInfoMap, key, classEntity.getClassName());
+                if (!StringUtils.isNotBlank(required)) {
+                    required = FieldHelper.getFieldRequired(fieldApiInfoMap, key, null);
+                }
+                fieldEntity.setRequired(required);
+
             }
 
         } else if (type instanceof JSONArray) {

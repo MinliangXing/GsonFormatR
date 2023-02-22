@@ -5,10 +5,23 @@ import com.foxsteps.gsonformat.config.Constant;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.codeStyle.VariableKind;
-import org.apache.http.util.TextUtils;
 
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+import org.apache.http.util.TextUtils;
 
 public class SettingDialog extends JFrame {
 
@@ -33,6 +46,8 @@ public class SettingDialog extends JFrame {
     //private JCheckBox generateCommentsCB;
     private JCheckBox useWrapperClassCB;
     private JCheckBox useCommentCB;
+    private JCheckBox useRequiredAnnotationCB;
+    private JCheckBox useSwaggerCommentCB;
     private JCheckBox splitGenerateCB;
 
     private JRadioButton fieldPublicRadioButton;
@@ -125,6 +140,11 @@ public class SettingDialog extends JFrame {
         useWrapperClassCB.setSelected(Config.getInstant().isUseWrapperClass());
         //增加字段注释checkBox
         useCommentCB.setSelected(Config.getInstant().isUseComment());
+
+        //增加swagger字段注释checkBox
+        useCommentCB.setSelected(Config.getInstant().isUseSwaggerComment());
+
+        useCommentCB.setSelected(Config.getInstant().isUseRequiredAnnotation());
         //使用LombokCheckbox
         useLombokCB.setSelected(Config.getInstant().isUseLombok());
         //使用数字key作为key
@@ -383,6 +403,8 @@ public class SettingDialog extends JFrame {
         Config.getInstant().setSplitGenerate(splitGenerateCB.isSelected());
         Config.getInstant().setUseWrapperClass(useWrapperClassCB.isSelected());
         Config.getInstant().setUseComment(useCommentCB.isSelected());
+        Config.getInstant().setUseRequiredAnnotation(useRequiredAnnotationCB.isSelected());
+        Config.getInstant().setUseSwaggerComment(useSwaggerCommentCB.isSelected());
         Config.getInstant().setUseLombok(useLombokCB.isSelected());
         Config.getInstant().setUseNumberKeyAsMap(useNumberKeyAsMapCB.isSelected());
         Config.getInstant().save();

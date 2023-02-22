@@ -2,6 +2,8 @@ package com.foxsteps.gsonformat.process;
 
 import com.foxsteps.gsonformat.common.FieldHelper;
 import com.foxsteps.gsonformat.common.JavaDocUtils;
+import com.foxsteps.gsonformat.common.RequiredAnnotationUtils;
+import com.foxsteps.gsonformat.common.SwaggerDocUtils;
 import com.foxsteps.gsonformat.common.Try;
 import com.foxsteps.gsonformat.config.Config;
 import com.foxsteps.gsonformat.config.Constant;
@@ -10,6 +12,7 @@ import com.foxsteps.gsonformat.entity.FieldEntity;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiField;
+
 import org.apache.http.util.TextUtils;
 
 /**
@@ -29,6 +32,13 @@ public class LombokProcessor extends Processor {
                 @Override
                 public void run() {
                     PsiField field = factory.createFieldFromText(generateLombokFieldText(classEntity, fieldEntity, null), cls);
+
+                    if (Config.getInstant().isUseSwaggerComment()) {
+                        SwaggerDocUtils.addFieldComment(field, fieldEntity, factory);
+                    }
+                    if (Config.getInstant().isUseRequiredAnnotation()) {
+                        RequiredAnnotationUtils.addFieldComment(field, fieldEntity, factory);
+                    }
                     if (Config.getInstant().isUseComment()) {
                         JavaDocUtils.addFieldComment(field, fieldEntity, factory);
                     }
