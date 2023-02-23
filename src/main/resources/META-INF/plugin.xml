@@ -1,74 +1,7 @@
 <idea-plugin>
     <name>GsonFormatPlus+</name>
     <version>0.x.1</version>
-    <description><![CDATA[
-<!doctype html>
-<html>
-<head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>README_EN</title></head>
-<body>
-<p>GsonFormatPlus This is a plugin you can generate Json model from Json String.
-<strong>This Plugin is only for IntelliJ IDEA And Android Studio</strong>.
-which is base on GsonFormat and more flexible and convenient. Welcome to issue and PR.</p>
-<h2>Install</h2>
-<ul>
-<li><p>Using IDE built-in plugin system on Windows:</p>
-<ul>
-<li><kbd>File</kbd> &gt; <kbd>Settings</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Browse repositories...</kbd> &gt; <kbd>Search for &quot;GsonFormatPlus&quot;</kbd> &gt; <kbd>Install Plugin</kbd></li>
-
-</ul>
-</li>
-<li><p>Using IDE built-in plugin system on MacOs:</p>
-<ul>
-<li><kbd>Preferences</kbd> &gt; <kbd>Settings</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Browse repositories...</kbd> &gt; <kbd>Search for &quot;GsonFormatPlus&quot;</kbd> &gt; <kbd>Install Plugin</kbd></li>
-
-</ul>
-</li>
-<li><p>Manually:</p>
-<ul>
-<li>Download the <a href='https://github.com/mars-men/GsonFormatPlus/releases'>latest release</a> and install it manually using <kbd>Preferences</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Install plugin from disk...</kbd></li>
-<li>From official jetbrains store from <a href='https://plugins.jetbrains.com/plugin/14949-gsonformatplus/'>download</a></li>
-
-</ul>
-</li>
-
-</ul>
-<p>Restart IDE.</p>
-<h2>Usage</h2>
-<h3>1.Use IDE menu</h3>
-<p><img src="https://raw.githubusercontent.com/sun-men/Figurebed/master/2020/03/12-11-12-47-gsonformat-insert.png" referrerpolicy="no-referrer" alt="Generate.png"></p>
-<h3>2.Use hotkey</h3>
-<p>Default <strong>Option + s</strong>(Mac), <strong>Alt + s</strong> (win)</p>
-<p>You can change the hotkey via: </p>
-<p><img src="https://raw.githubusercontent.com/sun-men/Figurebed/master/2020/03/12-11-13-43-gsonformat-keymap.png" referrerpolicy="no-referrer" alt="修改快捷键.png"></p>
-<h3>3.Use Demo</h3>
-<p><img src="https://raw.githubusercontent.com/sun-men/Figurebed/master/2020/03/12-11-18-54-gsonformat-generator.gif" referrerpolicy="no-referrer" alt="gsonformatgeneratorgif"></p>
-<h3>4.Setting</h3>
-<p><img src="https://raw.githubusercontent.com/sun-men/Figurebed/master/2020/03/12-11-18-09-gsonformat-setting.png" referrerpolicy="no-referrer" alt="gsonformatsettingpng"></p>
-<p>&nbsp;</p>
-<p>SETTING</p>
-<figure><table>
-<thead>
-<tr><th>module</th><th>value</th><th>default</th><th>description</th></tr></thead>
-<tbody><tr><td>Convert Method</td><td>object/arrayFromData</td><td>false</td><td>Gson convert method</td></tr><tr><td>Generate</td><td>virgo mode</td><td>true</td><td>virgo mode</td></tr><tr><td>Generate</td><td>generate comments</td><td>false</td><td>generate comments</td></tr><tr><td>Generate</td><td>split generate</td><td>false</td><td>split generate sub class</td></tr><tr><td>Bean</td><td>reuse bean</td><td>false</td><td>TODO</td></tr><tr><td>Field</td><td>name suffix</td><td>true</td><td>class suffix</td></tr><tr><td>Field</td><td>field(private/public)</td><td>true</td><td>access level</td></tr><tr><td>Field</td><td>name prefix</td><td>true</td><td>field name prefix</td></tr><tr><td>Field</td><td>use serialized name</td><td>true</td><td>use serialized name</td></tr><tr><td>Field</td><td>use wrapper class</td><td>true</td><td>use wrapper class，eq: int convert Integer</td></tr><tr><td>Field</td><td>use lombok</td><td>true</td><td>use lombok replace Getter/Setter</td></tr><tr><td>Field</td><td>use number key as map</td><td>true</td><td>use number key as map，TODO</td></tr><tr><td>Convert library</td><td>jackson/fastjson</td><td>true</td><td>jackson/fastjson convert library</td></tr></tbody>
-</table></figure>
-<p>&nbsp;</p>
-<h2>Version Info</h2>
-
-    <p>0.x.1</p>
-    <ul>
-      <li>support auto format</li>
-      <li>support swagger comment</li>
-      <li>support validation</li>
-    </ul>
-
-<p>the end</p>
-</body>
-</html>
-      ]]>
-    </description>
-    <vendor email="@outlook.com">xml</vendor>
+    <vendor email="minliangxing@gmail.com">xml</vendor>
     <idea-version since-build="135.121"/>
     <change-notes><![CDATA[
     <p>0.x.1</p>
