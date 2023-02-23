@@ -1,4 +1,4 @@
-GsonFormatPlus+
+GsonFormatR
 
 This is a plugin you can generate Json model from Json String.
 **This Plugin is only for IntelliJ IDEA**.

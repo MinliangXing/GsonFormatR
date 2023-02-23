@@ -1,10 +1,25 @@
 <idea-plugin>
-    <name>GsonFormatPlus+</name>
-    <version>0.x.1</version>
+    <name>GsonFormatR</name>
+    <version>1.6.0.1</version>
+    <description><![CDATA[
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>README_EN</title></head>
+<body>
+<p>GsonFormatPlus This is a plugin you can generate Json model from Json String.
+<strong>This Plugin is only for IntelliJ IDEA And Android Studio</strong>.
+which is base on GsonFormat and more flexible and convenient</p>
+<p>the end</p>
+</body>
+</html>
+      ]]>
+    </description>
     <vendor email="minliangxing@gmail.com">xml</vendor>
     <idea-version since-build="135.121"/>
     <change-notes><![CDATA[
-    <p>0.x.1</p>
+    <p>1.6.0.1</p>
     <ul>
       <li>support auto format</li>
       <li>support swagger comment</li>
@@ -12,7 +27,7 @@
     </ul>
 ]]></change-notes>
     <actions>
-        <action id="GsonFormatPlus+" class="com.foxsteps.gsonformat.MainAction" text="GsonFormatPlus+">
+        <action id="GsonFormatR" class="com.foxsteps.gsonformat.MainAction" text="GsonFormatR">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt s"/>
         </action>

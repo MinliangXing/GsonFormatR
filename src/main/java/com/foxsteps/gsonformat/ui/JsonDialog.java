@@ -71,7 +71,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
         this.project = project;
         //设置内容面板
         setContentPane(contentPane2);
-        setTitle("GsonFormatPlus+");
+        setTitle("GsonFormatR");
         getRootPane().setDefaultButton(okButton);
         this.setAlwaysOnTop(true);
         //初始化面板
