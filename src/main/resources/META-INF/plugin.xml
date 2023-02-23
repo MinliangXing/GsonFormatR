@@ -1,6 +1,6 @@
 <idea-plugin>
     <name>GsonFormatR</name>
-    <version>1.6.0.1</version>
+    <version>1.6.0.2</version>
     <description><![CDATA[
 <!doctype html>
 <html>
@@ -19,7 +19,7 @@ which is base on GsonFormat and more flexible and convenient</p>
     <vendor email="minliangxing@gmail.com">xml</vendor>
     <idea-version since-build="135.121"/>
     <change-notes><![CDATA[
-    <p>1.6.0.1</p>
+    <p>1.6.0.2</p>
     <ul>
       <li>support auto format</li>
       <li>support swagger comment</li>
