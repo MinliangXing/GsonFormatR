@@ -33,12 +33,6 @@ public class LombokProcessor extends Processor {
                 public void run() {
                     PsiField field = factory.createFieldFromText(generateLombokFieldText(classEntity, fieldEntity, null), cls);
 
-                    if (Config.getInstant().isUseSwaggerComment()) {
-                        SwaggerDocUtils.addFieldComment(field, fieldEntity, factory);
-                    }
-                    if (Config.getInstant().isUseRequiredAnnotation()) {
-                        RequiredAnnotationUtils.addFieldComment(field, fieldEntity, factory);
-                    }
                     if (Config.getInstant().isUseComment()) {
                         JavaDocUtils.addFieldComment(field, fieldEntity, factory);
                     }
@@ -85,8 +79,16 @@ public class LombokProcessor extends Processor {
             fieldSb.append(classEntity.getExtra()).append("\n");
             classEntity.setExtra(null);
         }
+
         if (fieldEntity.getTargetClass() != null) {
             fieldEntity.getTargetClass().setGenerate(true);
+        }
+        if (Config.getInstant().isUseSwaggerComment()) {
+            fieldSb.append(SwaggerDocUtils.getFieldAnnotation(fieldEntity));
+        }
+
+        if (Config.getInstant().isUseRequiredAnnotation()) {
+            fieldSb.append(RequiredAnnotationUtils.getFieldAnnotation(fieldEntity));
         }
 
         if (Config.getInstant().isFieldPrivateMode()) {

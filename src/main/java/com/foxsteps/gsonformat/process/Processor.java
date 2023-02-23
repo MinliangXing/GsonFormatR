@@ -304,13 +304,6 @@ public abstract class Processor {
                     PsiField field = factory.createFieldFromText(generateFieldText(classEntity, fieldEntity, null),
                         cls);
 
-                    if (Config.getInstant().isUseSwaggerComment()) {
-                        SwaggerDocUtils.addFieldComment(field, fieldEntity, factory);
-                    }
-
-                    if (Config.getInstant().isUseRequiredAnnotation()) {
-                        RequiredAnnotationUtils.addFieldComment(field, fieldEntity, factory);
-                    }
                     if (Config.getInstant().isUseComment()) {
                         JavaDocUtils.addFieldComment(field, fieldEntity, factory);
                     }
@@ -361,6 +354,15 @@ public abstract class Processor {
             .isUseSerializedName())) {
             fieldSb.append(Config.getInstant().geFullNameAnnotation().replaceAll("\\{filed\\}", fieldEntity.getKey()));
         }
+
+        if (Config.getInstant().isUseSwaggerComment()) {
+            fieldSb.append(SwaggerDocUtils.getFieldAnnotation(fieldEntity));
+        }
+
+        if (Config.getInstant().isUseRequiredAnnotation()) {
+            fieldSb.append(RequiredAnnotationUtils.getFieldAnnotation(fieldEntity));
+        }
+
         //添加字段类型与名称
         if (Config.getInstant().isFieldPrivateMode()) {
             fieldSb.append("private ").append(fieldEntity.getFullNameType()).append(" ").append(filedName).append(";");
@@ -400,8 +402,21 @@ public abstract class Processor {
                     }
                 }
             }
+//            if (!isHasDataFlag || !isHasNoArgsConstructoryFlag) {
+//                PsiImportStatement lombok = factory.createImportStatementOnDemand("lombok");
+//                generateClass.addBefore(lombok,firstChild);
+//            }
+//            if (Config.getInstant().isUseSwaggerComment()){
+//                PsiImportStatement swagger = factory.createImportStatementOnDemand("io.swagger.annotations");
+//                generateClass.addBefore(swagger,firstChild);
+//            }
+//            if (Config.getInstant().isUseRequiredAnnotation()){
+//                PsiImportStatement constraints = factory.createImportStatementOnDemand("javax.validation.constraints");
+//                generateClass.addBefore(constraints,firstChild);
+//            }
 
             if (!isHasNoArgsConstructoryFlag) {
+
                 PsiAnnotation annotationFromText = factory.createAnnotationFromText("@lombok.NoArgsConstructor",
                     generateClass);
                 modifierList.addBefore(annotationFromText, firstChild);

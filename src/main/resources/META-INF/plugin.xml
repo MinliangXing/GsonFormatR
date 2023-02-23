@@ -1,6 +1,6 @@
 <idea-plugin>
-    <name>GsonFormatPlusPlus</name>
-    <version>1.6.1</version>
+    <name>GsonFormatPlus+</name>
+    <version>0.x.1</version>
     <description><![CDATA[
 <!doctype html>
 <html>
@@ -8,7 +8,6 @@
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>README_EN</title></head>
 <body>
-<p><a href='https://github.com/mars-men/GsonFormatPlus'>Github</a> | <a href='https://github.com/mars-men/GsonFormatPlus'>Manual</a> | <a href='https://github.com/mars-men/GsonFormatPlus/issues'>Issues</a></p>
 <p>GsonFormatPlus This is a plugin you can generate Json model from Json String.
 <strong>This Plugin is only for IntelliJ IDEA And Android Studio</strong>.
 which is base on GsonFormat and more flexible and convenient. Welcome to issue and PR.</p>
@@ -57,114 +56,30 @@ which is base on GsonFormat and more flexible and convenient. Welcome to issue a
 <p>&nbsp;</p>
 <h2>Version Info</h2>
 
-<p>1.6.0 by wangzhejun</p>
-<ul>
-<li>support auto format</li>
-<li>fix comment position</li>
-<li>fix camel convert</li>
-</ul>
+    <p>0.x.1</p>
+    <ul>
+      <li>support auto format</li>
+      <li>support swagger comment</li>
+      <li>support validation</li>
+    </ul>
 
-<p>1.5.8 by wangzhejun</p>
-<ul>
-<li>fix json camel bug</li>
-<li>fix bool property default `is` function</li>
-<li>fix comment conflict</li>
-</ul>
-
-<p>1.5.7 by wangzhejun</p>
-<ul>
-<li>fix some json5 format bug</li>
-</ul>
-
-<p>1.5.6 by mars-men</p>
-<ul>
-<li>remote json dialog ‘VK_ENTER’ listener</li>
-<li>update readme</li>
-</ul>
-
-<p>1.5.5 by mars-men</p>
-<ul>
-<li>upload to jetbrain plugin center</li>
-</ul>
-
-<p>1.5.2 by wangzejun</p>
-<ul>
-<li>support field comment</li>
-<li>support json5 format</li>
-
-</ul>
-<p>1.5.1 by mars-men</p>
-<ul>
-<li>setting jackson annotation as default</li>
-<li>support lombok as option</li>
-<li>fix some bug</li>
-
-</ul>
-<p>1.5.0 - 3 years ago by gsonformat</p>
-<ul>
-<li>fix several bug</li>
-<li>fix unlock setting window size</li>
-
-</ul>
-<p>1.4.0</p>
-<ul>
-<li>New: Support for autovalue</li>
-<li>New: Support for lombok</li>
-<li>New: Support for split generate class</li>
-
-</ul>
 <p>the end</p>
 </body>
 </html>
       ]]>
     </description>
-    <vendor email="ol894498560@outlook.com">mars-men</vendor>
+    <vendor email="@outlook.com">xml</vendor>
     <idea-version since-build="135.121"/>
     <change-notes><![CDATA[
-    <p>1.6.0</p>
+    <p>0.x.1</p>
     <ul>
       <li>support auto format</li>
-      <li>fix comment position</li>
-      <li>fix camel convert</li>
-    </ul>
-
-    <p>1.5.6</p>
-    <ul>
-      <li>fix several bug</li>
-      <li>update readme</li>
-    </ul>
-
-    <p>1.5.4</p>
-    <ul>
-      <li>fix several bug</li>
-      <li>support json5</li>
-      <li>support comment</li>
-    </ul>
-    <br/>
-
-    <p>1.5.2</p>
-    <ul>
-      <li>set jackson as default annotation</li>
-      <li>support lombok</li>
-    </ul>
-    <br/>
-
-    <p>1.5.0</p>
-    <ul>
-      <li>fix several bug </li>
-      <li>fix unlock setting window size </li>
-    </ul>
-    <br/>
-
-    <p>1.4.x</p>
-    <ul>
-      <li>New: Support for autovalue</li>
-      <li>New: Support for lombok</li>
-      <li>New: Support for split generate class</li>
+      <li>support swagger comment</li>
+      <li>support validation</li>
     </ul>
 ]]></change-notes>
     <actions>
-        <action id="GsonFormatPlus" class="com.foxsteps.gsonformat.MainAction" text="GsonFormatPlus">
+        <action id="GsonFormatPlus+" class="com.foxsteps.gsonformat.MainAction" text="GsonFormatPlus+">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt s"/>
         </action>

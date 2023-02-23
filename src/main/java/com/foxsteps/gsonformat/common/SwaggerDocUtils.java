@@ -1,9 +1,6 @@
 package com.foxsteps.gsonformat.common;
 
 import com.foxsteps.gsonformat.entity.FieldEntity;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiElementFactory;
-import com.intellij.psi.PsiField;
 
 /**
  * @author wangzejun
@@ -15,16 +12,14 @@ public class SwaggerDocUtils {
     /**
      * 增加字段注释
      *
-     * @param field
      * @param fieldEntity
-     * @param factory
      */
-    public static void addFieldComment(PsiField field, FieldEntity fieldEntity, PsiElementFactory factory) {
+    public static String getFieldAnnotation(FieldEntity fieldEntity) {
         StringBuffer swaggerDoc = new StringBuffer();
         //        @ApiModelProperty(value = "就诊类别名称")
         swaggerDoc.append("@io.swagger.annotations.ApiModelProperty(value = \"");
         if (StringUtils.isNotBlank(fieldEntity.getFieldComment())) {
-            swaggerDoc.append(fieldEntity.getFieldComment()).append("\"");
+            swaggerDoc.append(StringUtils.escapeExprSpecialWord(fieldEntity.getFieldComment())).append("\"");
         } else {
             swaggerDoc.append(fieldEntity.getFieldName()).append("\"");
         }
@@ -32,9 +27,8 @@ public class SwaggerDocUtils {
         if ("是".equals(fieldEntity.getRequired())) {
             swaggerDoc.append(",required = true ");
         }
-        swaggerDoc.append(")");
-        PsiAnnotation comment = factory.createAnnotationFromText(String.valueOf(swaggerDoc), null);
-        field.addBefore(comment, field.getFirstChild());
+        swaggerDoc.append(")\n");
+        return swaggerDoc.toString();
     }
 
 }

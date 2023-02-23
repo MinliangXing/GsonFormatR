@@ -142,9 +142,9 @@ public class SettingDialog extends JFrame {
         useCommentCB.setSelected(Config.getInstant().isUseComment());
 
         //增加swagger字段注释checkBox
-        useCommentCB.setSelected(Config.getInstant().isUseSwaggerComment());
+        useSwaggerCommentCB.setSelected(Config.getInstant().isUseSwaggerComment());
 
-        useCommentCB.setSelected(Config.getInstant().isUseRequiredAnnotation());
+        useRequiredAnnotationCB.setSelected(Config.getInstant().isUseRequiredAnnotation());
         //使用LombokCheckbox
         useLombokCB.setSelected(Config.getInstant().isUseLombok());
         //使用数字key作为key

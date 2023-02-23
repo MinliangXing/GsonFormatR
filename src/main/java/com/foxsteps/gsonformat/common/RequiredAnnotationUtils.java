@@ -1,9 +1,6 @@
 package com.foxsteps.gsonformat.common;
 
 import com.foxsteps.gsonformat.entity.FieldEntity;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiElementFactory;
-import com.intellij.psi.PsiField;
 
 /**
  * @author wangzejun
@@ -18,8 +15,9 @@ public class RequiredAnnotationUtils {
      * @param field
      * @param fieldEntity
      * @param factory
+     * @return
      */
-    public static void addFieldComment(PsiField field, FieldEntity fieldEntity, PsiElementFactory factory) {
+    public static String getFieldAnnotation(FieldEntity fieldEntity) {
         StringBuffer annotation = new StringBuffer();
 
         if (StringUtils.isNotBlank(fieldEntity.getRequired())) {
@@ -32,14 +30,13 @@ public class RequiredAnnotationUtils {
                 annotation.append("@javax.validation.constraints.NotNull(message = \"");
             }
             if (StringUtils.isNotBlank(fieldEntity.getFieldComment())) {
-                annotation.append(fieldEntity.getFieldComment());
+                annotation.append(StringUtils.escapeExprSpecialWord(fieldEntity.getFieldComment()));
             } else {
                 annotation.append(fieldEntity.getFieldName());
             }
-            annotation.append("不能为空 \")");
+            annotation.append("不能为空 \")\n");
 
         }
-        PsiAnnotation comment = factory.createAnnotationFromText(String.valueOf(annotation), null);
-        field.addBefore(comment, field.getFirstChild());
+        return annotation.toString();
     }
 }
