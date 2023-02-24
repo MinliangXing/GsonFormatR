@@ -60,6 +60,17 @@ public class Config {
     private boolean useComment = false;
 
     /**
+     * 是否使用swagger字段注释
+     */
+    private boolean useSwaggerComment = false;
+
+
+    /**
+     * 是否使用必填注解非空字段注释
+     */
+    private boolean useRequiredAnnotation = false;
+
+    /**
      * 是否使用Lombok
      */
     private boolean useLombok = true;
@@ -96,6 +107,8 @@ public class Config {
         PropertiesComponent.getInstance().setValue("splitGenerate", splitGenerate + "");
         PropertiesComponent.getInstance().setValue("useWrapperClass", useWrapperClass + "");
         PropertiesComponent.getInstance().setValue("useComment", useComment + "");
+        PropertiesComponent.getInstance().setValue("useSwaggerComment", useSwaggerComment + "");
+        PropertiesComponent.getInstance().setValue("useRequiredAnnotation", useRequiredAnnotation + "");
         PropertiesComponent.getInstance().setValue("useLombok", useLombok + "");
         PropertiesComponent.getInstance().setValue("useNumberKeyAsMap", useNumberKeyAsMap + "");
     }
@@ -126,6 +139,8 @@ public class Config {
             config.setSplitGenerate(PropertiesComponent.getInstance().getBoolean("splitGenerate", false));
             config.setUseWrapperClass(PropertiesComponent.getInstance().getBoolean("useWrapperClass", true));
             config.setUseComment(PropertiesComponent.getInstance().getBoolean("useComment", false));
+            config.setUseSwaggerComment(PropertiesComponent.getInstance().getBoolean("useSwaggerComment", false));
+            config.setUseRequiredAnnotation(PropertiesComponent.getInstance().getBoolean("useRequiredAnnotation", false));
             config.setUseLombok(PropertiesComponent.getInstance().getBoolean("useLombok", true));
             config.setUseNumberKeyAsMap(PropertiesComponent.getInstance().getBoolean("useNumberKeyAsMap", false));
         }
@@ -154,6 +169,22 @@ public class Config {
 
     public String getEntityPackName() {
         return entityPackName;
+    }
+
+    public boolean isUseSwaggerComment() {
+        return useSwaggerComment;
+    }
+
+    public void setUseSwaggerComment(boolean useSwaggerComment) {
+        this.useSwaggerComment = useSwaggerComment;
+    }
+
+    public boolean isUseRequiredAnnotation() {
+        return useRequiredAnnotation;
+    }
+
+    public void setUseRequiredAnnotation(boolean useRequiredAnnotation) {
+        this.useRequiredAnnotation = useRequiredAnnotation;
     }
 
     public String geFullNameAnnotation() {

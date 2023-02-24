@@ -4,7 +4,12 @@ import com.foxsteps.gsonformat.config.Constant;
 import com.foxsteps.gsonformat.entity.FieldApiInfo;
 import com.foxsteps.gsonformat.enums.FieldApiTypeEnum;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -227,14 +232,22 @@ public class FieldHelper {
         //System.out.println(fieldName);
         String fieldDesc = "";
         String required = "";
+        String defaultValue = "";
         String fieldType = "";
         if (fieldArr.length >= 3) {
             fieldType = fieldArr[fieldIndexMap.get(TYPE)];
         }
 
-        if (fieldArr.length >= 3 && fieldArr.length >= 5) {
-            fieldDesc = fieldArr[fieldIndexMap.get(FIELD_DESC)];
+        if (fieldArr.length >= 4){
             required = fieldArr[fieldIndexMap.get(REQUIRED)];
+        }
+        if (fieldArr.length >= 5) {
+            defaultValue = fieldArr[fieldIndexMap.get(DEFAULT_VALUE)];
+
+        }
+        if (fieldArr.length >= 6) {
+            fieldDesc = fieldArr[fieldIndexMap.get(FIELD_DESC)];
+
         }
 
         FieldApiInfo fieldApiInfo = new FieldApiInfo();
@@ -247,6 +260,7 @@ public class FieldHelper {
         }
 
         fieldApiInfo.setType(fieldType);
+        fieldApiInfo.setDefaultValue(defaultValue);
         if (StringUtils.isNotBlank(fieldComment)) {
             fieldApiInfo.setFieldComment(fieldComment);
         } else if (StringUtils.isNotBlank(fieldDesc)) {
@@ -286,5 +300,31 @@ public class FieldHelper {
             return "";
         }
         return fieldApiInfo.getFieldComment().trim();
+    }
+
+
+
+    /**
+     * 从json5获取是否必填
+     */
+    public static String getFieldRequired(Map<String, FieldApiInfo> fieldApiInfoMap, String fieldName, String innerName) {
+        if (fieldApiInfoMap == null || fieldApiInfoMap.isEmpty()) {
+            return "";
+        }
+
+        String key = fieldName;
+        if (innerName != null) {
+            key = innerName + "-" + fieldName;
+        }
+
+        if (!fieldApiInfoMap.containsKey(key)) {
+            return "";
+        }
+
+        FieldApiInfo fieldApiInfo = fieldApiInfoMap.get(key);
+        if (fieldApiInfo == null || !StringUtils.isNotBlank(fieldApiInfo.getRequired())) {
+            return "";
+        }
+        return fieldApiInfo.getRequired().trim();
     }
 }

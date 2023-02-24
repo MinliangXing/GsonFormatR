@@ -4,6 +4,7 @@ import com.foxsteps.gsonformat.common.CheckUtil;
 import com.foxsteps.gsonformat.tools.json.JSONObject;
 import com.foxsteps.gsonformat.tools.ux.CellProvider;
 import com.foxsteps.gsonformat.tools.ux.Selector;
+
 import org.apache.http.util.TextUtils;
 
 /**
@@ -16,6 +17,8 @@ public class FieldEntity implements Selector, CellProvider {
      * 类型
      */
     protected String type;
+
+    protected String required;
 
     /**
      * 生成的名字
@@ -43,6 +46,14 @@ public class FieldEntity implements Selector, CellProvider {
     protected ClassEntity targetClass;
 
     protected boolean generate = true;
+
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
+    }
 
     public ClassEntity getTargetClass() {
         return targetClass;
@@ -160,21 +171,24 @@ public class FieldEntity implements Selector, CellProvider {
     public String getCellTitle(int index) {
         String result = "";
         switch (index) {
-            case 0:
-                result = getKey();
-                break;
-            case 1:
-                result = getValue();
-                break;
-            case 2:
-                result = getBriefType();
-                break;
-            case 3:
-                result = getFieldName();
-                break;
-            case 4:
-                result = getFieldComment();
-                break;
+        case 0:
+            result = getKey();
+            break;
+        case 1:
+            result = getValue();
+            break;
+        case 2:
+            result = getBriefType();
+            break;
+        case 3:
+            result = getFieldName();
+            break;
+        case 4:
+            result = getRequired();
+            break;
+        case 5:
+            result = getFieldComment();
+            break;
         }
         return result;
     }
@@ -182,19 +196,22 @@ public class FieldEntity implements Selector, CellProvider {
     @Override
     public void setValueAt(int column, String text) {
         switch (column) {
-            case 2:
-                checkAndSetType(text);
-                break;
-            case 3:
-                if (CheckUtil.getInstant().containsDeclareFieldName(text)) {
-                    return;
-                }
-                CheckUtil.getInstant().removeDeclareFieldName(getFieldName());
-                setFieldName(text);
-                break;
-            case 4:
-                setFieldComment(text);
-                break;
+        case 2:
+            checkAndSetType(text);
+            break;
+        case 3:
+            if (CheckUtil.getInstant().containsDeclareFieldName(text)) {
+                return;
+            }
+            CheckUtil.getInstant().removeDeclareFieldName(getFieldName());
+            setFieldName(text);
+            break;
+        case 4:
+            setRequired(text);
+            break;
+        case 5:
+            setFieldComment(text);
+            break;
         }
     }
 

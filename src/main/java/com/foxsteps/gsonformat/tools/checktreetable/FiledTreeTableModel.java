@@ -14,8 +14,8 @@ import org.jdesktop.swingx.treetable.TreeTableNode;
  */
 public class FiledTreeTableModel extends DefaultTreeTableModel {
 
-    private String[] _names = {" Key ", "Value", "Data Type", " Field name ", " Field Comment "};
-    private Class[] _types = {Object.class, Object.class, Object.class, Object.class, Object.class};
+    private String[] _names = {" Key ", "Value", "Data Type", " Field name ","Required", " Field Comment "};
+    private Class[] _types = {Object.class, Object.class, Object.class, Object.class, Object.class, Object.class};
 
 
     public FiledTreeTableModel(TreeTableNode node) {
@@ -89,6 +89,10 @@ public class FiledTreeTableModel extends DefaultTreeTableModel {
         }
 
         if (column == 4) {
+            return true;
+        }
+
+        if (column == 5) {
             return true;
         }
         return false;

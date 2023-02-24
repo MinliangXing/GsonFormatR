@@ -2,24 +2,43 @@ package com.foxsteps.gsonformat.ui;
 
 import com.foxsteps.gsonformat.ConvertBridge;
 import com.foxsteps.gsonformat.common.JsonUtils;
+import com.foxsteps.gsonformat.common.PsiClassUtil;
 import com.foxsteps.gsonformat.common.StringUtils;
 import com.foxsteps.gsonformat.common.SystemUtils;
 import com.foxsteps.gsonformat.config.Config;
-import com.foxsteps.gsonformat.common.PsiClassUtil;
+import com.foxsteps.gsonformat.tools.json.JSONArray;
+import com.foxsteps.gsonformat.tools.json.JSONException;
+import com.foxsteps.gsonformat.tools.json.JSONObject;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.PsiJavaFileImpl;
-import org.apache.http.util.TextUtils;
-import com.foxsteps.gsonformat.tools.json.JSONArray;
-import com.foxsteps.gsonformat.tools.json.JSONException;
-import com.foxsteps.gsonformat.tools.json.JSONObject;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.CardLayout;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+import org.apache.http.util.TextUtils;
 
 public class JsonDialog extends JFrame implements ConvertBridge.Operator {
 
@@ -52,7 +71,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
         this.project = project;
         //设置内容面板
         setContentPane(contentPane2);
-        setTitle("GsonFormatPlus");
+        setTitle("GsonFormatR");
         getRootPane().setDefaultButton(okButton);
         this.setAlwaysOnTop(true);
         //初始化面板
