@@ -8,9 +8,49 @@
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <title>README_EN</title></head>
 <body>
-<p>GsonFormatPlus This is a plugin you can generate Json model from Json String.
+<p>GsonFormatR This is a plugin you can generate Json model from Json String.
 <strong>This Plugin is only for IntelliJ IDEA And Android Studio</strong>.
-which is base on GsonFormat and more flexible and convenient</p>
+which is base on GsonFormatPlus 1.6.0 and more flexible and convenient</p>
+
+
+
+<h2>Install</h2>
+<ul>
+<li><p>Using IDE built-in plugin system on Windows:</p>
+<ul>
+<li><kbd>File</kbd> &gt; <kbd>Settings</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Browse repositories...</kbd> &gt; <kbd>Search for &quot;GsonFormatR&quot;</kbd> &gt; <kbd>Install Plugin</kbd></li>
+</ul>
+</li>
+<li><p>Using IDE built-in plugin system on MacOs:</p>
+<ul>
+<li><kbd>Preferences</kbd> &gt; <kbd>Settings</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Browse repositories...</kbd> &gt; <kbd>Search for &quot;GsonFormatR&quot;</kbd> &gt; <kbd>Install Plugin</kbd></li>
+
+</ul>
+</li>
+<li><p>Manually:</p>
+<ul>
+<li>Download the <a href='https://github.com/MinliangXing/GsonFormatR/releases'>latest release</a> and install it manually using <kbd>Preferences</kbd> &gt; <kbd>Plugins</kbd> &gt; <kbd>Install plugin from disk...</kbd></li>
+<li>From official jetbrains store from <a href='https://plugins.jetbrains.com/plugin/21122-gsonformatr'>download</a></li>
+</ul>
+<p>Restart IDE.</p>
+
+</ul>
+</li>
+
+
+<h2>Usage</h2>
+<p>Default <strong>Option + s</strong>(Mac), <strong>Alt + s</strong> (win)</p>
+
+<p>&nbsp;</p>
+<h2>Version Info</h2>
+
+    <p>1.6.0.1</p>
+        <ul>
+            <li>support auto format.</li>This already exists in  GsonFormatPlus 1.6.0.
+            <li>support swagger comment</li> You can turn this switch on the settings page,then,swagger annotations will be added to the generated code.
+            <li>support validation</li>You can turn this switch on the settings page,then,validation annotations will be added to the generated code.
+          </ul>
+
 <p>the end</p>
 </body>
 </html>
@@ -19,12 +59,12 @@ which is base on GsonFormat and more flexible and convenient</p>
     <vendor email="minliangxing@gmail.com">xml</vendor>
     <idea-version since-build="135.121"/>
     <change-notes><![CDATA[
-    <p>1.6.0.2</p>
-    <ul>
-      <li>support auto format</li>
-      <li>support swagger comment</li>
-      <li>support validation</li>
-    </ul>
+    <p>1.6.0.1</p>
+        <ul>
+            <li>support auto format.</li>This already exists in  GsonFormatPlus 1.6.0.
+            <li>support swagger comment</li> You can turn this switch on the settings page,then,swagger annotations will be added to the generated code.
+            <li>support validation</li>You can turn this switch on the settings page,then,validation annotations will be added to the generated code.
+          </ul>
 ]]></change-notes>
     <actions>
         <action id="GsonFormatR" class="com.foxsteps.gsonformat.MainAction" text="GsonFormatR">
