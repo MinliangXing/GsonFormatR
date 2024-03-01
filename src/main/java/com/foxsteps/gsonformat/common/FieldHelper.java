@@ -1,10 +1,12 @@
 package com.foxsteps.gsonformat.common;
 
+import com.foxsteps.gsonformat.config.Config;
 import com.foxsteps.gsonformat.config.Constant;
 import com.foxsteps.gsonformat.entity.FieldApiInfo;
 import com.foxsteps.gsonformat.enums.FieldApiTypeEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,7 +32,7 @@ public class FieldHelper {
 
     private final static String FIELD_DESC = "fieldDesc";
 
-    private final static Map<String, Integer> fieldIndexMap = new LinkedHashMap<String, Integer>(12) {
+    public final static Map<String, Integer> fieldIndexMap = new LinkedHashMap<String, Integer>(12) {
         {
             put(FIELD_NAME, 0);
             put(FIELD_NAME_COMMENT, 1);
@@ -118,7 +120,7 @@ public class FieldHelper {
             }
 
             FieldApiInfo oldInfo = apiFieldMap.get(key);
-            if (oldInfo!=null && !StringUtils.isNotBlank(oldInfo.getFieldComment())) {
+            if (oldInfo != null && !StringUtils.isNotBlank(oldInfo.getFieldComment())) {
                 apiFieldMap.put(key, fieldApiInfo);
             }
 
@@ -178,18 +180,20 @@ public class FieldHelper {
      * @author wangzejun
      * @date 2020年07月06日 23:57:01
      */
-    private static void dealWithField(String[] apiFieldArr, Map<String, List<String>> childrenMap, List<FieldApiInfo> firstFieldList, String parentName, String suffixStr) {
+    private static void dealWithField(String[] apiFieldArr, Map<String, List<String>> childrenMap,
+        List<FieldApiInfo> firstFieldList, String parentName, String suffixStr) {
         String tempParentName = "";
+        List<String> orders = Arrays.asList(Config.getInstant().getCommentFieldOrder().split(","));
         for (String apiField : apiFieldArr) {
+
             String[] fieldArr = apiField.split("\t");
-            String fieldName = fieldArr[fieldIndexMap.get(FIELD_NAME)];
-            String fieldType = "";
+            String fieldName = fieldArr[orders.indexOf(FIELD_NAME)];
+            String fieldType = orders.contains(TYPE) ? fieldArr[orders.indexOf(TYPE)]:"";
             boolean isCustomType = false;
-            if (fieldArr.length >= 3) {
-                fieldType = fieldArr[fieldIndexMap.get(TYPE)];
-                isCustomType = fieldType.endsWith(FieldApiTypeEnum.ARRAY.getValue()) || fieldType.equalsIgnoreCase(FieldApiTypeEnum.ARRAY.getValue());
-                isCustomType = isCustomType || FieldApiTypeEnum.OBJECT.getValue().equalsIgnoreCase(fieldType);
-            }
+            isCustomType = fieldType.endsWith(FieldApiTypeEnum.ARRAY.getValue()) || fieldType.equalsIgnoreCase(
+                FieldApiTypeEnum.ARRAY.getValue());
+            isCustomType = isCustomType || FieldApiTypeEnum.OBJECT.getValue().equalsIgnoreCase(fieldType);
+
             if (apiField.startsWith("\t") && isCustomType) {
                 tempParentName = fieldName;
             } else if (apiField.startsWith("\t") && StringUtils.isNotBlank(tempParentName)) {
@@ -206,7 +210,7 @@ public class FieldHelper {
             }
 
             if (isCustomType) {
-                String fieldComment = fieldArr[fieldIndexMap.get(FIELD_NAME_COMMENT)];
+                String fieldComment = orders.contains(FIELD_NAME_COMMENT) ? fieldArr[orders.indexOf(FIELD_NAME_COMMENT)]:"";
                 tempParentName = StringUtils.captureName(fieldName) + suffixStr;
                 FieldApiInfo fieldApiInfo = new FieldApiInfo();
                 fieldApiInfo.setFieldName(tempParentName);
@@ -227,28 +231,14 @@ public class FieldHelper {
      * @date 2020年07月06日 23:55:14
      */
     private static void addFirstField(List<FieldApiInfo> firstFieldList, String parentName, String[] fieldArr) {
-        String fieldName = fieldArr[fieldIndexMap.get(FIELD_NAME)];
-        String fieldComment = fieldArr[fieldIndexMap.get(FIELD_NAME_COMMENT)];
-        //System.out.println(fieldName);
-        String fieldDesc = "";
-        String required = "";
-        String defaultValue = "";
-        String fieldType = "";
-        if (fieldArr.length >= 3) {
-            fieldType = fieldArr[fieldIndexMap.get(TYPE)];
-        }
+        List<String> orders = Arrays.asList(Config.getInstant().getCommentFieldOrder().split(","));
 
-        if (fieldArr.length >= 4){
-            required = fieldArr[fieldIndexMap.get(REQUIRED)];
-        }
-        if (fieldArr.length >= 5) {
-            defaultValue = fieldArr[fieldIndexMap.get(DEFAULT_VALUE)];
-
-        }
-        if (fieldArr.length >= 6) {
-            fieldDesc = fieldArr[fieldIndexMap.get(FIELD_DESC)];
-
-        }
+        String fieldName = orders.contains(FIELD_NAME) ? fieldArr[orders.indexOf(FIELD_NAME)] : "";
+        String fieldComment = orders.contains(FIELD_NAME_COMMENT) ? fieldArr[orders.indexOf(FIELD_NAME_COMMENT)]:"";
+        String fieldDesc = orders.contains(FIELD_DESC) ? fieldArr[orders.indexOf(FIELD_DESC)]:"";;
+        String required = orders.contains(REQUIRED) ? fieldArr[orders.indexOf(REQUIRED)]:"";;;
+        String defaultValue = orders.contains(DEFAULT_VALUE) ? fieldArr[orders.indexOf(DEFAULT_VALUE)]:"";
+        String fieldType = orders.contains(TYPE) ? fieldArr[orders.indexOf(TYPE)]:"";;
 
         FieldApiInfo fieldApiInfo = new FieldApiInfo();
         if (StringUtils.isNotBlank(parentName)) {
@@ -270,7 +260,6 @@ public class FieldHelper {
         firstFieldList.add(fieldApiInfo);
     }
 
-
     /**
      * 从json5获取注释
      *
@@ -281,7 +270,8 @@ public class FieldHelper {
      * @author wangzejun
      * @date 2020年07月06日 23:55:42
      */
-    public static String getFieldComment(Map<String, FieldApiInfo> fieldApiInfoMap, String fieldName, String innerName) {
+    public static String getFieldComment(Map<String, FieldApiInfo> fieldApiInfoMap, String fieldName,
+        String innerName) {
         if (fieldApiInfoMap == null || fieldApiInfoMap.isEmpty()) {
             return "";
         }
@@ -302,12 +292,11 @@ public class FieldHelper {
         return fieldApiInfo.getFieldComment().trim();
     }
 
-
-
     /**
      * 从json5获取是否必填
      */
-    public static String getFieldRequired(Map<String, FieldApiInfo> fieldApiInfoMap, String fieldName, String innerName) {
+    public static String getFieldRequired(Map<String, FieldApiInfo> fieldApiInfoMap, String fieldName,
+        String innerName) {
         if (fieldApiInfoMap == null || fieldApiInfoMap.isEmpty()) {
             return "";
         }

@@ -1,5 +1,6 @@
 package com.foxsteps.gsonformat.ui;
 
+import com.foxsteps.gsonformat.common.FieldHelper;
 import com.foxsteps.gsonformat.config.Config;
 import com.foxsteps.gsonformat.config.Constant;
 import com.intellij.openapi.project.Project;
@@ -11,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -67,12 +70,16 @@ public class SettingDialog extends JFrame {
     private JRadioButton loganSquareRB;
     private JRadioButton autoValueRB;
     private JRadioButton lombokRB;
-
+    private JTextField commentFiledOrderTF;
+    private JTextField defCommentFiledOrderTF;
 
     //注解字符串
     private String annotaionStr;
 
-    public SettingDialog(Project project) {
+    private JsonDialog jsonDialog;
+
+    public SettingDialog(Project project, JsonDialog jsonDialog) {
+        this.jsonDialog = jsonDialog;
         setContentPane(contentPane);
 //        setModal(true);
         getRootPane().setDefaultButton(okButton);
@@ -148,8 +155,9 @@ public class SettingDialog extends JFrame {
         //使用LombokCheckbox
         useLombokCB.setSelected(Config.getInstant().isUseLombok());
         //使用数字key作为key
-        useNumberKeyAsMapCB.setSelected(Config.getInstant().isUseNumberKeyAsMap());
-
+        commentFiledOrderTF.setText(Config.getInstant().getCommentFieldOrder());
+        defCommentFiledOrderTF.setText(FieldHelper.fieldIndexMap.entrySet().stream().sorted(Map.Entry.comparingByValue())
+            .map(Map.Entry::getKey).collect(Collectors.joining(",")));
         /**
          * ==========
          * 按钮监听器
@@ -396,7 +404,6 @@ public class SettingDialog extends JFrame {
         Config.getInstant().setReuseEntity(reuseEntityCB.isSelected());
         Config.getInstant().setSuffixStr(suffixEdit.getText());
         Config.getInstant().setVirgoMode(virgoModelCB.isSelected());
-        //Config.getInstant().setGenerateComments(generateCommentsCB.isSelected());
         Config.getInstant().setFiledNamePreFixStr(filedPrefixTF.getText());
         Config.getInstant().setAnnotationStr(annotationTF.getText());
         Config.getInstant().setUseFieldNamePrefix(filedPrefixCB.isSelected());
@@ -407,6 +414,8 @@ public class SettingDialog extends JFrame {
         Config.getInstant().setUseSwaggerComment(useSwaggerCommentCB.isSelected());
         Config.getInstant().setUseLombok(useLombokCB.isSelected());
         Config.getInstant().setUseNumberKeyAsMap(useNumberKeyAsMapCB.isSelected());
+        Config.getInstant().setCommentFieldOrder(commentFiledOrderTF.getText());
+        this.jsonDialog.getCommentLB().setText("Comment("+commentFiledOrderTF.getText()+")");
         Config.getInstant().save();
 
         dispose();

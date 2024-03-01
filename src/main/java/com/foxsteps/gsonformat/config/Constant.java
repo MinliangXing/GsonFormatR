@@ -1,5 +1,7 @@
 package com.foxsteps.gsonformat.config;
 
+import a.g.S;
+
 /**
  * Created by dim on 15/5/31.
  */
@@ -105,5 +107,7 @@ public class Constant {
     public static final String noArgsConstructorAnnotation = "@NoArgsConstructor";
 
     public static final String loganSquareFullNameAnnotation = "@com.bluelinelabs.logansquare.annotation.JsonField(name=\"{filed}\")";
+
+    public static final Object[] commentFieldOrder = new Object[]{};
 
 }
