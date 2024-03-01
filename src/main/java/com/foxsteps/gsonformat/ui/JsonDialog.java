@@ -58,6 +58,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
     private JTextArea commentAR;
     private JButton copyJsonButton;
     private JButton copyCommentButton;
+    private JLabel commentLB;
 
     private PsiClass cls;
     private PsiFile file;
@@ -88,6 +89,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
         currentClass = ((PsiJavaFileImpl) file).getPackageName() + "." + file.getName().split("\\.")[0];
         generateClassLB.setText(currentClass);
         generateClassTF.setText(currentClass);
+        commentLB.setText("Comment("+Config.getInstant().getCommentFieldOrder()+")");
         //生成类输入框焦点监听器
         generateClassTF.addFocusListener(new FocusListener() {
             @Override
@@ -326,7 +328,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
      */
     public void openSettingDialog() {
 
-        SettingDialog settingDialog = new SettingDialog(project);
+        SettingDialog settingDialog = new SettingDialog(project,this);
         settingDialog.setSize(900, 720);
         settingDialog.setLocationRelativeTo(null);
 //        settingDialog.setResizable(false);
@@ -366,4 +368,7 @@ public class JsonDialog extends JFrame implements ConvertBridge.Operator {
         }
     }
 
+    public JLabel getCommentLB() {
+        return commentLB;
+    }
 }

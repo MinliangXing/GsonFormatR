@@ -1,6 +1,10 @@
 package com.foxsteps.gsonformat.config;
 
+import com.foxsteps.gsonformat.common.FieldHelper;
 import com.intellij.ide.util.PropertiesComponent;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by dim on 15/5/31.
@@ -49,6 +53,8 @@ public class Config {
 
     private boolean useFieldNamePrefix = true;
 
+    private String commentFieldOrder;
+
     /**
      * 是否使用包装类来替代基本类型
      */
@@ -63,7 +69,6 @@ public class Config {
      * 是否使用swagger字段注释
      */
     private boolean useSwaggerComment = false;
-
 
     /**
      * 是否使用必填注解非空字段注释
@@ -111,6 +116,7 @@ public class Config {
         PropertiesComponent.getInstance().setValue("useRequiredAnnotation", useRequiredAnnotation + "");
         PropertiesComponent.getInstance().setValue("useLombok", useLombok + "");
         PropertiesComponent.getInstance().setValue("useNumberKeyAsMap", useNumberKeyAsMap + "");
+        PropertiesComponent.getInstance().setValue("commentFieldOrder", commentFieldOrder);
     }
 
     public static Config getInstant() {
@@ -125,11 +131,16 @@ public class Config {
             config.setArrayFromData1(PropertiesComponent.getInstance().getBoolean("arrayFromData1", false));
             config.setSuffixStr(PropertiesComponent.getInstance().getValue("suffixStr", "DTO"));
             config.setReuseEntity(PropertiesComponent.getInstance().getBoolean("reuseEntity", false));
-            config.setObjectFromDataStr(PropertiesComponent.getInstance().getValue("objectFromDataStr", Constant.objectFromObject));
-            config.setObjectFromDataStr1(PropertiesComponent.getInstance().getValue("objectFromDataStr1", Constant.objectFromObject1));
-            config.setArrayFromDataStr(PropertiesComponent.getInstance().getValue("arrayFromDataStr", Constant.arrayFromData));
-            config.setArrayFromData1Str(PropertiesComponent.getInstance().getValue("arrayFromData1Str", Constant.arrayFromData1));
-            config.setAnnotationStr(PropertiesComponent.getInstance().getValue("annotationStr", Constant.jacksonAnnotation));
+            config.setObjectFromDataStr(
+                PropertiesComponent.getInstance().getValue("objectFromDataStr", Constant.objectFromObject));
+            config.setObjectFromDataStr1(
+                PropertiesComponent.getInstance().getValue("objectFromDataStr1", Constant.objectFromObject1));
+            config.setArrayFromDataStr(
+                PropertiesComponent.getInstance().getValue("arrayFromDataStr", Constant.arrayFromData));
+            config.setArrayFromData1Str(
+                PropertiesComponent.getInstance().getValue("arrayFromData1Str", Constant.arrayFromData1));
+            config.setAnnotationStr(
+                PropertiesComponent.getInstance().getValue("annotationStr", Constant.jacksonAnnotation));
             config.setEntityPackName(PropertiesComponent.getInstance().getValue("entityPackName"));
             config.setFiledNamePreFixStr(PropertiesComponent.getInstance().getValue("filedNamePreFixStr"));
             config.setErrorCount(PropertiesComponent.getInstance().getOrInitInt("errorCount", 0));
@@ -140,9 +151,17 @@ public class Config {
             config.setUseWrapperClass(PropertiesComponent.getInstance().getBoolean("useWrapperClass", true));
             config.setUseComment(PropertiesComponent.getInstance().getBoolean("useComment", false));
             config.setUseSwaggerComment(PropertiesComponent.getInstance().getBoolean("useSwaggerComment", false));
-            config.setUseRequiredAnnotation(PropertiesComponent.getInstance().getBoolean("useRequiredAnnotation", false));
+            config.setUseRequiredAnnotation(
+                PropertiesComponent.getInstance().getBoolean("useRequiredAnnotation", false));
             config.setUseLombok(PropertiesComponent.getInstance().getBoolean("useLombok", true));
             config.setUseNumberKeyAsMap(PropertiesComponent.getInstance().getBoolean("useNumberKeyAsMap", false));
+            String commentFieldOrder = PropertiesComponent.getInstance().getValue("commentFieldOrder");
+            if (commentFieldOrder == null) {
+                commentFieldOrder = FieldHelper.fieldIndexMap.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey).collect(Collectors.joining(","));
+
+            }
+            config.setCommentFieldOrder(commentFieldOrder);
         }
         return config;
     }
@@ -332,7 +351,6 @@ public class Config {
         this.fieldPrivateMode = fieldPrivateMode;
     }
 
-
     public void saveObjectFromDataStr(String objectFromDataStr) {
         this.objectFromDataStr = objectFromDataStr;
         PropertiesComponent.getInstance().setValue("objectFromDataStr", objectFromDataStr + "");
@@ -408,5 +426,13 @@ public class Config {
 
     public void setUseNumberKeyAsMap(boolean useNumberKeyAsMap) {
         this.useNumberKeyAsMap = useNumberKeyAsMap;
+    }
+
+    public String getCommentFieldOrder() {
+        return commentFieldOrder;
+    }
+
+    public void setCommentFieldOrder(String commentFieldOrder) {
+        this.commentFieldOrder = commentFieldOrder;
     }
 }
